@@ -7,8 +7,10 @@ export class AuthController {
     constructor( private readonly authService:AuthService) {}
 
     @UseGuards(LocalAuthGuard)
-    @Post('auth/login')
+    @Post('login')
     async login(@Request() req) {
-        return this.authService.login(req.user);
+        const token = await this.authService.login(req.user);
+        console.log(token)
+        return token
     }
 }

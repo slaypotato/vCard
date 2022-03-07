@@ -5,8 +5,9 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   const config = app.get(ConfigService);
-  const port = config.get<number>('PORT');
+  const port = config.get<number>('BACKEND_PORT');
 
   const DocBuilder = new DocumentBuilder()
     .setTitle(config.get<string>('APP_NAME'))

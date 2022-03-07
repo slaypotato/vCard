@@ -38,3 +38,4 @@ lerna-debug.log*
 /backend/dist
 /backend/node_modules
 /data
+*/package-lock.json
