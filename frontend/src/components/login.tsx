@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 async function loginUser(credentials: any) {
@@ -8,10 +8,9 @@ async function loginUser(credentials: any) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(credentials)
+    }).then(data => {
+        return data.json();
     })
-        .then(data => {
-            return data.json();
-        })
 }
 
 export default function Login({ setToken }:any) {

@@ -10,7 +10,7 @@ export class AuthController {
     @Post('login')
     async login(@Request() req) {
         const token = await this.authService.login(req.user);
-        console.log(token)
+        //console.log(token)
         return token
     }
 }
