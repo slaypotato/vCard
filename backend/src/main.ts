@@ -1,21 +1,25 @@
-import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
-  const config = app.get(ConfigService);
-  const port = config.get<number>('BACKEND_PORT');
+  const configService = app.get(ConfigService);
 
-  const DocBuilder = new DocumentBuilder()
-    .setTitle(config.get<string>('APP_NAME'))
-    .setDescription(config.get<string>('APP_DESCRIPTION'))
-    .setVersion(config.get<string>('APP_VERSION'))
+  const appName = configService.get('APP_NAME');
+  const appDescription = configService.get('APP_DESCRIPTION');
+  const appVersion = process.env.npm_package_version;
+
+  const documentBuilder = new DocumentBuilder()
+    .setTitle(appName)
+    .setDescription(appDescription)
+    .setVersion(appVersion)
     .build();
-  const document = SwaggerModule.createDocument(app, DocBuilder);
+  const document = SwaggerModule.createDocument(app, documentBuilder);
   SwaggerModule.setup('api', app, document);
+
+  const port = configService.get('PORT');
 
   await app.listen(port);
 }
