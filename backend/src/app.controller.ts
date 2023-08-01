@@ -1,6 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from './cloudTools/auth/auth.guard';
 
 @Controller()
 @ApiTags('HealthCheck')
@@ -9,6 +10,7 @@ export class AppController {
   constructor(private readonly config: ConfigService) {}
 
   @Get('/healthcheck')
+  @UseGuards(AuthGuard)
   getHealth(): string {
     const port = this.config.get<string>('PORT');
     const version = process.env.npm_package_version;
